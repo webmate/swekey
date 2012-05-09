@@ -1,0 +1,292 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+  <title>Swekey PHP Integration Kit</title>
+  <style type="text/css" media="screen">
+body {font: 13px Verdana,sans-serif;}
+  </style>
+</head>
+<body>
+<h1 style="text-align: center;">Swekey
+PHP Integration Kit</h1>
+Version: 2.0.4 rev 5310 (alpha) <br>
+Date: 03/12/12<br>
+<h2>Introduction</h2>
+This document explains how to integrate swekey authentication in
+existing PHP applications.<br>
+It is intended for PHP developers.<br>
+<h2>Step 1: Copy the swekey
+directory</h2>
+Next to this file you will find a directory named 'swekey'. It contains
+all the code that will be necessary to integrate swekey technology to
+your PHP application.<br>
+Copy this directory somewhere in your web application
+(/htdocs/www/swekey).<br>
+<h2>Step 2: Identify the files you
+will modify</h2>
+Most of the files in
+the swekey directory are shared by other PHP integration projects, so
+don't try to modify those file, they will be overridden the next time
+you
+will update this kit. \ All the files that you are supposed to modify
+starts with
+'my_'.<br>
+<h2>Step 3: Find a place to
+include your integration file</h2>
+Your swekey integration file (my_integration.php) must be included at
+the end of each page of your web site.<br>
+If you have a central place in your application where you output the
+end of the page:<br>
+<address>echo
+'&lt;/body&gt;&lt;/html&gt;'; &nbsp; </address>
+You should put the swekey integration code just before:<br>
+<address>include_once
+'&lt;path_to_swekey_dir&gt;/my_integration.php';</address>
+<address>$integration = new
+MySwekeyIntegration;<br>
+echo $integration-&gt;GetIntegrationScript();</address>
+<address>
+echo '&lt;/body&gt;&lt;/html&gt;'; &nbsp; </address>
+<h4>Validate your changes</h4>
+Load a page of your site.<br>
+Verify that at the end of the page you see the following frame:
+<div
+ style="display: block; background-color: rgb(204, 204, 204); width: 100%; color: rgb(0, 0, 0); font-family: Tahoma;"><big>SWEKEY
+INTEGRATION DEBUG INFO</big><br>
+<small><i>(To
+remove this table set "show_debug_info" to false in
+"my_integration.php" )</i></small><br>
+<br>
+...<br>
+<br>
+</div>
+<br>
+<h2>Step 4: Modify your user
+database</h2>
+Your application should have a database table that keep the names, and
+the passwords of your users.<br>
+Please add the 'swekey_id' field in this table (VARCHAR len 32).<br>
+If you are supposed to have hundreds of users you should consider
+indexing your table with this field.<br>
+<h2>Step 5:&nbsp;Set the right
+value for "swekey_dir_url"</h2>
+In &nbsp;file my_integration.php, &nbsp;function
+MySwekeyIntegration():<br>
+Set the right value to the variable: $this-&gt;swekey_dir_url<br>
+This variable should contain the URL to the swekey directory, with
+slash at the end.<br>
+It is used to load the swekey javascript files. <br>
+<h4>Validate your changes</h4>
+Load a page of your site.<br>
+Verify that your swekey debug information contains the line:<br>
+<span class="Apple-style-span"
+ style="border-collapse: separate; color: rgb(0, 0, 0); font-family: 'Times New Roman'; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: 2; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; font-size: medium;"><span
+ class="Apple-style-span"
+ style="border-collapse: collapse; color: rgb(73, 73, 73); font-family: 'Courier New'; font-size: 12px; line-height: 20px; text-align: left;">Testing
+swekey_dir_url:<span class="Apple-converted-space"> &lt;your
+path&gt; </span><span id="swekey_dir_url_result">OK</span></span></span>
+<h2>Step 6: Verify that the
+default Ajax implementation is working</h2>
+Verify that your swekey debug information contains the line:<br>
+<span class="Apple-style-span"
+ style="border-collapse: separate; color: rgb(0, 0, 0); font-family: 'Times New Roman'; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: 2; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; font-size: medium;"><span
+ class="Apple-style-span"
+ style="border-collapse: collapse; color: rgb(73, 73, 73); font-family: 'Courier New'; font-size: 12px; line-height: 20px; text-align: left;">Testing
+Ajax:<span class="Apple-converted-space">&nbsp;</span><span
+ id="swekey_dir_url_result">OK<br>
+</span></span></span>If
+not, try to figure out what is wrong using the debug information
+provided.<br>
+<span class="Apple-style-span"
+ style="border-collapse: separate; color: rgb(0, 0, 0); font-family: 'Times New Roman'; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: 2; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; font-size: medium;"><span
+ class="Apple-style-span"
+ style="border-collapse: collapse; color: rgb(73, 73, 73); font-family: 'Courier New'; font-size: 12px; line-height: 20px; text-align: left;"><span
+ id="swekey_dir_url_result"></span></span></span>
+<h2>Step 7: Activate the swekey
+logo in the login page</h2>
+In &nbsp;file my_integration.php, &nbsp;function
+MySwekeyIntegration():<br>
+Open the login &nbsp;page of your site with a browser.<br>
+Do a 'view page source' in your browser.<br>
+Search where the login name text field is declared in the login form.<br>
+You should see something like:<span style="font-family: monospace;"><br>
+</span>
+<address>&lt;<span class="start-tag">label</span>&gt;Username&lt;<span
+ class="start-tag">input</span><span class="attribute-name"> type</span>=<span
+ class="attribute-value">"text" </span><span class="attribute-name">name</span>=<span
+ class="attribute-value">"</span><span class="attribute-value">user_login</span><span
+ class="attribute-value">" </span><span class="attribute-name">id</span>=<span
+ class="attribute-value">"user_login" </span><span
+ class="attribute-name">class</span>=<span class="attribute-value">"input"
+</span><span class="attribute-name">value</span>=<span
+ class="attribute-value">"" </span><span class="attribute-name">size</span>=<span
+ class="attribute-value">"20" </span><span class="attribute-name">tabindex</span>=<span
+ class="attribute-value">"10" </span><span class="error"><span
+ class="attribute-name">/</span></span>&gt;&lt;/<span class="end-tag">label</span>&gt;</address>
+In that example we see that the user name field is called 'user_login'.<br>
+In &nbsp;my_integration.php, &nbsp;find the line:<br>
+<address>$this-&gt;input_names
+= array("user_name");</address>
+and replace `user_name` with the name of your own user name
+field&nbsp;and&nbsp; if you have multiple names you can add
+them in the array.<br>
+<h4>Validate your changes</h4>
+Open the login &nbsp;page of your site with a browser.<br>
+You should see a&nbsp; swekey logo next to your user name field.<br>
+Depending on your page layout, the logo may not placed at the right
+position, this can be fixed using the 'swekey_config.php' file.<br>
+<br>
+<h2>Step 8: Verify that the swekey
+authentication is working</h2>
+Open the login &nbsp;page of your site with a browser.<br>
+When no swekey are plugged the swekey logo should be gray.<br>
+When you plug a swekey, the logo should turns orange (authenticating)
+then green (authenticated).<br>
+<h2>Step 9:&nbsp;Set the right
+value for "is_user_logged"</h2>
+In &nbsp;file my_integration.php, &nbsp;function
+MySwekeyIntegration():<br>
+You should detect if a user is logged or not.<br>
+If a user is logged set $this-&gt;is_user_logged to true,
+otherwise,
+set this variable to false.<br>
+You may have to include some of your common file in
+&nbsp;my_integration.php.<br>
+<h4>Validate your changes</h4>
+Open the login &nbsp;page of your site.<br>
+Login.<br>
+Verify that your swekey debug information contains the line:<br>
+<span class="Apple-style-span"
+ style="border-collapse: separate; color: rgb(0, 0, 0); font-family: 'Times New Roman'; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: 2; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; font-size: medium;"><span
+ class="Apple-style-span"
+ style="border-collapse: collapse; color: rgb(73, 73, 73); font-family: 'Courier New'; font-size: 12px; line-height: 20px; text-align: left;">is_user_logged:<span
+ class="Apple-converted-space"> true</span></span></span><br>
+Plug the swekey.<br>
+A dialog should pop up to propose to attach the plugged swekey to your
+account.<br>
+Cancel, (OK will fail anyway)<br>
+<h2>Step 10: Perform the attachment</h2>
+When you accept the attachment the Javascript of the page just call the
+function AttachSwekeyToCurrentUser($swekey_id)<br>
+in my_integration.php.<br>
+In this function you should write the given swekey_id in 'swekey_id'
+column of your user database for the currently logged user.<br>
+<h4>Validate your changes</h4>
+Open the login &nbsp;page of your site.<br>
+Login.<br>
+Plug the swekey.<br>
+A dialog should pop up to propose to attach the plugged swekey to your
+account.<br>
+Press OK.<br>
+A 'success' alert should be displayed.<br>
+Check your database and verify the the 'swekey_id' of the user is not
+empty.<br>
+<h2>Step 11: Automatically fill
+the 'user name' field</h2>
+Starting at step 11 we assume that the swekey is attached to your
+account.<br>
+In my_integration.php find the method
+"GetUserNameFromSwekeyId($swekey_id)" and write the code that return
+the name of the user &nbsp;that have the swekey '$swekey_id'
+attached to his account.<br>
+<h4>Validate your changes</h4>
+Open the login &nbsp;page of your site with no swekey plugged.<br>
+Plug the swekey.<br>
+The 'user name' field should be filled with your name.
+<h2>Step 12: Check that a swekey
+is attached to the user account</h2>
+If you logout and login again, the attachment dialog will pop up again.<br>
+It means that your code does not detect that a swekey is already
+attached to the user account.<br>
+To fix that, you just have to fill the variable
+$this-&gt;swekey_id_of_logged_user
+in&nbsp;&nbsp;my_integration.php with the appropriate value..<br>
+<h4>Validate your changes</h4>
+Verify that your swekey debug information contains the line:<br>
+<span class="Apple-style-span"
+ style="border-collapse: separate; color: rgb(0, 0, 0); font-family: 'Times New Roman'; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: 2; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; font-size: medium;"><span
+ class="Apple-style-span"
+ style="border-collapse: collapse; color: rgb(73, 73, 73); font-family: 'Courier New'; font-size: 12px; line-height: 20px; text-align: left;">swekey_id_of_logged_user:<span
+ class="Apple-converted-space"> 0000000000000000...</span></span></span><br>
+<h2>Step 13: Setup automatic logout</h2>
+In &nbsp;file my_integration.php, &nbsp;function
+MySwekeyIntegration():<br>
+Put the URL of the page that logout a user in the variable
+$this-&gt;logout_url<br>
+When a user is attached to a swekey and when the swekey is plugged the
+user is redirected to this URL.
+<h4>Validate your changes</h4>
+Open the login &nbsp;page of your site.<br>
+Login with your swekey plugged.<br>
+Unplug your swekey.<br>
+You should be automatically&nbsp; logged out.
+<h2>Step 14: Check swekey presence
+at login</h2>
+In the current state you are still able to log in even&nbsp; if
+your
+swekey is not plugged. You are just&nbsp; logged out after 3 secs.<br>
+This is not user friendly, you must now verify that the swekey is
+plugged when you login.<br>
+To do that you have to&nbsp;locate the location in your code where
+you verify the password of the
+user and add the following code:<br>
+<address>include_once
+'&lt;path_to_swekey_dir&gt;/my_integration.php';<br>
+$swekey_id = &lt;get the swekey id (if any) of the user that wants
+to login here&gt;</address>
+<address>$integration = new
+MySwekeyIntegration;<br>
+</address>
+<address>if (!
+$integration-&gt;IsSwekeyAuthenticated($swekey_id)) // $user_name
+should
+contains the name of the user that want to login<br>
+{<br>
+&nbsp; &nbsp; // Do whatever you should do to tell that login
+failed<br>
+}</address>
+<h4><span style="font-weight: bold;"></span>Validate
+your changes
+Open the login &nbsp;page of your site.</h4>
+Login without the swekey.<br>
+The logging should failed<br>
+<h2>Step 15: Remove the debug
+information</h2>
+In &nbsp;file my_integration.php, &nbsp;function
+MySwekeyIntegration():<br>
+Set $this-&gt;show_debug_info to false;<br>
+<h4>Validate your changes</h4>
+Load a page of your site.<br>
+Verify that there is no more&nbsp; swekey debug information block.<span
+ class="Apple-style-span"
+ style="border-collapse: separate; color: rgb(0, 0, 0); font-family: 'Times New Roman'; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: 2; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; font-size: medium;"><span
+ class="Apple-style-span"
+ style="border-collapse: collapse; color: rgb(73, 73, 73); font-family: 'Courier New'; font-size: 12px; line-height: 20px; text-align: left;"><br>
+</span></span>
+<h2>Step 16: Let the user (or
+admin) detach a swekey from an account</h2>
+In the current state you &nbsp;can attach a swekey to an account
+using
+the attachment dialog, but there is no way to detach it.<br>
+To do that just add add 'Swekey Id' field in your user settings page.<br>
+It is up to your security policy to let users do it or to only
+authorize the admin to perform this task.
+<h2>Step 17: Configuration</h2>
+You can customize and configure the behavior of the the swekey
+integration using the self documented 'swekey_config.php' file.<br>
+<h2>Version History</h2>
+2.0.4<br>
+&nbsp;&nbsp;&nbsp; added file show_result.php (mandatory for smartphone
+emulation)<br>
+2.0.3<br>
+&nbsp;&nbsp;&nbsp; Support for smartphone emulation<br>
+&nbsp;&nbsp;&nbsp; Minor bugs fixed<br>
+2.0.2<br>
+&nbsp;&nbsp;&nbsp; Authentication is now done using Ajax&nbsp;calls<br>
+1.0.1<br>
+&nbsp;&nbsp;&nbsp; First Official Release
+<h2>Support</h2>
+For any feedback or bug report concerning this integration kit please
+contact support@swekey.com
+</body>
+</html>
